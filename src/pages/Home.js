@@ -21,8 +21,8 @@ function SectionHeading({ title, subtitle }) {
 
 function Home() {
   return (
-    <div className="min-h-screen bg-white" dir="rtl">
-      <Navbar />
+    <div id="home" className="min-h-screen bg-white" dir="rtl">
+      <Navbar currentPage="home" />
       <main className="overflow-hidden">
         <Hero />
 
@@ -38,9 +38,12 @@ function Home() {
               ))}
             </div>
             <div className="mt-8 text-center">
-              <button className="rounded-md bg-[#0f4fa8] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#0b418c]">
-                عرض الجميع
-              </button>
+              <a
+                href="#bookings"
+                className="inline-flex rounded-md bg-[#0f4fa8] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#0b418c]"
+              >
+                عرض كل العقارات
+              </a>
             </div>
           </div>
         </section>
