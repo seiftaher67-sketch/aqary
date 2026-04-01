@@ -35,3 +35,66 @@
     font: inherit;
   }
 }
+
+@layer utilities {
+  .marquee-container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .marquee-container::before,
+  .marquee-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    width: 80px;
+    pointer-events: none;
+  }
+
+  .marquee-container::before {
+    right: 0;
+    background: linear-gradient(to left, #ffffff, rgba(255, 255, 255, 0));
+  }
+
+  .marquee-container::after {
+    left: 0;
+    background: linear-gradient(to right, #ffffff, rgba(255, 255, 255, 0));
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    align-items: center;
+    will-change: transform;
+    animation: marquee-scroll 18s linear infinite;
+  }
+
+  .marquee-item {
+    margin-inline: 28px;
+    display: flex;
+    height: 56px;
+    min-width: 110px;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.75;
+    filter: grayscale(1);
+    transition: opacity 0.2s ease, filter 0.2s ease;
+  }
+
+  .marquee-item:hover {
+    opacity: 1;
+    filter: grayscale(0);
+  }
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}

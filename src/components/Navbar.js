@@ -1,8 +1,8 @@
 const navigationItems = [
   { id: 'home', label: 'الرئيسية', href: '#home', page: 'home' },
   { id: 'bookings', label: 'الحجوزات', href: '#bookings', page: 'bookings' },
-  { id: 'latest-rentals', label: 'أحدث العقارات', href: '#latest-rentals', page: 'home' },
-  { id: 'cities', label: 'المدن', href: '#cities', page: 'home' },
+  { id: 'car-rental', label: 'تأجير سيارات', href: '#car-rental', page: 'car-rental' },
+  { id: 'about', label: 'من نحن', href: '#about', page: 'about' },
   { id: 'contact', label: 'تواصل معنا', href: '#contact', page: 'home' },
 ];
 
@@ -30,9 +30,7 @@ function Navbar({ currentPage = 'home' }) {
 
           <nav className="hidden items-center gap-7 text-sm font-semibold text-slate-700 lg:flex">
             {navigationItems.map((item) => {
-              const isActive =
-                (currentPage === 'bookings' && item.page === 'bookings') ||
-                (currentPage === 'home' && item.id === 'home');
+              const isActive = currentPage === item.page;
 
               return (
                 <a
