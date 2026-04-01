@@ -165,6 +165,15 @@ function CarRentalDetails({ carId }) {
           </div>
 
           <div className="mb-5 flex flex-wrap items-start justify-between gap-4">
+           
+            <div className="mr-10 flex flex-col items-start text-right">
+              <div className="mb-2 flex w-full items-center justify-start gap-2 text-[13px] text-[#7d8ea8]">
+                <span>({car.reviewCount}) تقييم</span>
+                <StarRating count={car.rating} />
+              </div>
+              <p className="w-full text-right text-[12px] font-bold text-[#155fcb]">{car.category}</p>
+              <h1 className="mt-1 w-full text-right text-[33px] font-extrabold text-[#233250]">{car.title}</h1>
+            </div>
             <div className="flex items-center gap-2 text-[#6f82a1]">
               <button
                 type="button"
@@ -180,14 +189,7 @@ function CarRentalDetails({ carId }) {
               </button>
             </div>
 
-            <div className="text-right">
-              <div className="mb-2 flex items-center justify-end gap-2 text-[13px] text-[#7d8ea8]">
-                <span>({car.reviewCount}) تقييم</span>
-                <StarRating count={car.rating} />
-              </div>
-              <p className="text-[12px] font-bold text-[#155fcb]">{car.category}</p>
-              <h1 className="mt-1 text-[33px] font-extrabold text-[#233250]">{car.title}</h1>
-            </div>
+           
           </div>
 
           <section className="rounded-[18px] border border-[#e5ebf6] bg-white p-3 shadow-[0_12px_30px_rgba(17,39,88,0.06)]">
@@ -231,12 +233,15 @@ function CarRentalDetails({ carId }) {
             <section className="space-y-5">
               <div className="rounded-[18px] border border-[#e5ebf6] bg-white p-5 shadow-[0_12px_30px_rgba(17,39,88,0.06)]">
                 <div className="flex flex-wrap items-end justify-between gap-4">
-                  <div className="text-right">
-                    <p className="text-[13px] font-bold text-[#1f3152]">وصف السيارة</p>
-                    <p className="mt-3 max-w-[560px] text-[13px] leading-8 text-[#7c8ca6]">{car.description}</p>
-                  </div>
-                  <div className="min-w-[190px] text-left">
-                    <div className="flex items-center justify-end gap-3">
+                 
+                 <div className="min-w-[260px]">
+                    <div className="flex items-end justify-between gap-4">
+                      <div className="flex items-end gap-1 text-[#155fcb]">
+                        <span className="text-[34px] font-extrabold leading-none">{car.price}</span>
+                        <span className="pb-1 text-[14px] font-bold">ريال /</span>
+                        <span className="pb-1 text-[12px] text-[#7f8ea8]">{car.priceUnit}</span>
+                      </div>
+                      <div className=" items-end justify-end " >
                       <span
                         className={`rounded-full px-4 py-1 text-[12px] font-bold ${
                           car.status === 'متاحة' ? 'bg-[#dbf8e3] text-[#16a34a]' : 'bg-[#ffe7e7] text-[#ef4444]'
@@ -244,14 +249,14 @@ function CarRentalDetails({ carId }) {
                       >
                         {car.status}
                       </span>
-                      <span className="text-[12px] font-bold text-[#7f8ea8]">الحالة</span>
-                    </div>
-                    <div className="mt-5 flex items-end justify-end gap-1 text-[#155fcb]">
-                      <span className="text-[34px] font-extrabold leading-none">{car.price}</span>
-                      <span className="pb-1 text-[14px] font-bold">ريال /</span>
-                      <span className="pb-1 text-[12px] text-[#7f8ea8]">{car.priceUnit}</span>
+                      </div>
                     </div>
                   </div>
+                  <div className="text-right">
+                    <p className="text-[13px] font-bold text-[#1f3152]">وصف السيارة</p>
+                    <p className="mt-3 max-w-[560px] text-[13px] leading-8 text-[#7c8ca6]">{car.description}</p>
+                  </div>
+                  
                 </div>
               </div>
 

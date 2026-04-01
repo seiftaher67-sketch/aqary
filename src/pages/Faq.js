@@ -84,7 +84,7 @@ function Faq() {
                     className="flex w-full items-center justify-between gap-4 text-right"
                   >
                     <span className="text-[28px] leading-none text-[#2f3f5a]">{isOpen ? '+' : '−'}</span>
-                    <h2 className="text-[15px] font-semibold text-[#223152]">{item.question}</h2>
+                    <h2 className="flex-1 text-right text-[15px] font-semibold text-[#223152]">{item.question}</h2>
                   </button>
 
                   {isOpen ? (
