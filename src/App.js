@@ -4,6 +4,11 @@ import Bookings from './pages/Bookings';
 import PropertyDetails from './pages/PropertyDetails';
 import CarRental from './pages/CarRental';
 import AboutUs from './pages/AboutUs';
+import ContactUs from './pages/ContactUs';
+import CarRentalDetails from './pages/CarRentalDetails';
+import TermsOfUse from './pages/TermsOfUse';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import Faq from './pages/Faq';
 
 const getRoute = () => {
   if (typeof window === 'undefined') {
@@ -22,6 +27,27 @@ const getRoute = () => {
 
   if (hash === '#about') {
     return { page: 'about', propertyId: null };
+  }
+
+  if (hash === '#contact-us') {
+    return { page: 'contact', propertyId: null };
+  }
+
+  if (hash === '#terms') {
+    return { page: 'terms', propertyId: null };
+  }
+
+  if (hash === '#privacy') {
+    return { page: 'privacy', propertyId: null };
+  }
+
+  if (hash === '#faq') {
+    return { page: 'faq', propertyId: null };
+  }
+
+  if (hash.startsWith('#car/')) {
+    const carId = hash.replace('#car/', '');
+    return { page: 'car-details', propertyId: carId };
   }
 
   if (hash.startsWith('#property/')) {
@@ -58,6 +84,26 @@ function App() {
 
   if (route.page === 'about') {
     return <AboutUs />;
+  }
+
+  if (route.page === 'contact') {
+    return <ContactUs />;
+  }
+
+  if (route.page === 'car-details') {
+    return <CarRentalDetails carId={route.propertyId} />;
+  }
+
+  if (route.page === 'terms') {
+    return <TermsOfUse />;
+  }
+
+  if (route.page === 'privacy') {
+    return <PrivacyPolicy />;
+  }
+
+  if (route.page === 'faq') {
+    return <Faq />;
   }
 
   return <Home />;

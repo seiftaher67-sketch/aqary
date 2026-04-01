@@ -1,4 +1,5 @@
 import CarRentalCard from '../components/CarRentalCard';
+import { availableCars } from '../carRentalData';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 
@@ -19,87 +20,6 @@ const carCategories = [
   { id: 3, title: 'تويوتا كروس', count: '18 سيارة', image: '/image/14.png' },
   { id: 4, title: 'بي ام دبليو', count: '12 سيارة', image: '/image/12.png' },
   { id: 5, title: 'رينج روفر', count: '10 سيارات', image: '/image/13.png' },
-];
-
-const availableCars = [
-  {
-    id: 1,
-    badge: 'جديدة',
-    badgeColor: 'green',
-    image: '/image/12.png',
-    category: 'سيارة سيدان',
-    name: 'هيونداي سنتافي 2021',
-    price: '250',
-    year: '2021',
-    transmission: 'اوتوماتيك',
-    fuel: 'بنزين',
-    passengers: '5 أشخاص',
-  },
-  {
-    id: 2,
-    badge: 'خصم خاص',
-    badgeColor: 'red',
-    image: '/image/13.png',
-    category: 'سيارة عائلية',
-    name: 'تويوتا كورولا 2022',
-    price: '150',
-    year: '2022',
-    transmission: 'اوتوماتيك',
-    fuel: 'بنزين',
-    passengers: '5 أشخاص',
-  },
-  {
-    id: 3,
-    badge: 'جديدة',
-    badgeColor: 'green',
-    image: '/image/14.png',
-    category: 'سيارة SUV',
-    name: 'تويوتا رايز 2023',
-    price: '150',
-    year: '2023',
-    transmission: 'اوتوماتيك',
-    fuel: 'بنزين',
-    passengers: '5 أشخاص',
-  },
-  {
-    id: 4,
-    badge: 'مميز',
-    badgeColor: 'red',
-    image: '/image/12.png',
-    category: 'سيارة سيدان',
-    name: 'بي ام دبليو 2022',
-    price: '700',
-    year: '2022',
-    transmission: 'اوتوماتيك',
-    fuel: 'بنزين',
-    passengers: '5 أشخاص',
-  },
-  {
-    id: 5,
-    badge: 'جديدة',
-    badgeColor: 'green',
-    image: '/image/13.png',
-    category: 'سيارة رياضية',
-    name: 'كيا سبورتاج 2022',
-    price: '400',
-    year: '2022',
-    transmission: 'اوتوماتيك',
-    fuel: 'بنزين',
-    passengers: '5 أشخاص',
-  },
-  {
-    id: 6,
-    badge: 'مميز',
-    badgeColor: 'red',
-    image: '/image/14.png',
-    category: 'سيارة فاخرة',
-    name: 'مرسيدس C200 - موديل 2021',
-    price: '600',
-    year: '2021',
-    transmission: 'اوتوماتيك',
-    fuel: 'بنزين',
-    passengers: '5 أشخاص',
-  },
 ];
 
 function SearchIcon() {
@@ -133,6 +53,8 @@ function HeroSpecs() {
 }
 
 function CarRental() {
+  const marqueeLogos = Array.from({ length: 4 }).flatMap(() => brandLogos);
+
   return (
     <div className="min-h-screen bg-white" dir="rtl">
       <Navbar currentPage="car-rental" />
@@ -195,21 +117,22 @@ function CarRental() {
 
         <section className="border-b border-[#edf2f8] py-6">
           <div className="marquee-container mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8">
-            {(() => {
-              const repeatCount = 3;
-              const block = Array.from({ length: repeatCount }).flatMap(() => brandLogos);
-              const fullTrack = [...block, ...block];
-
-              return (
-                <div className="marquee-track" aria-hidden="false">
-                  {fullTrack.map((logo, index) => (
-                    <div key={`${logo}-${index}`} className="marquee-item">
-                      <img src={logo} alt={`brand-${index}`} className="h-full w-full object-contain" />
-                    </div>
-                  ))}
-                </div>
-              );
-            })()}
+            {[0, 1].map((trackIndex) => (
+              <div
+                key={trackIndex}
+                className={`marquee-track ${trackIndex === 0 ? 'marquee-track-primary' : 'marquee-track-secondary'}`}
+                aria-hidden={trackIndex === 1}
+              >
+                {marqueeLogos.map((logo, index) => (
+                  <div
+                    key={`${trackIndex}-${logo}-${index}`}
+                    className="marquee-item"
+                  >
+                    <img src={logo} alt={`brand-${index + 1}`} className="h-full w-full object-contain" />
+                  </div>
+                ))}
+              </div>
+            ))}
           </div>
         </section>
 

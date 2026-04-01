@@ -40,6 +40,7 @@
   .marquee-container {
     position: relative;
     overflow: hidden;
+    height: 56px;
   }
 
   .marquee-container::before,
@@ -65,10 +66,20 @@
 
   .marquee-track {
     display: flex;
+    position: absolute;
+    inset-block: 0;
+    right: 0;
     width: max-content;
     align-items: center;
     will-change: transform;
-    animation: marquee-scroll 18s linear infinite;
+  }
+
+  .marquee-track-primary {
+    animation: marquee-scroll-primary 36s linear infinite;
+  }
+
+  .marquee-track-secondary {
+    animation: marquee-scroll-secondary 36s linear infinite;
   }
 
   .marquee-item {
@@ -96,5 +107,25 @@
 
   to {
     transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-scroll-primary {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes marquee-scroll-secondary {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0);
   }
 }

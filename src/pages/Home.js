@@ -104,16 +104,8 @@ function Home() {
             </div>
 
             <div className="order-1 lg:order-2">
-              <div className="relative mx-auto h-[360px] max-w-[520px]">
-                <div className="absolute left-0 top-8 h-[210px] w-[65%] overflow-hidden rounded-[28px] shadow-[0_18px_40px_rgba(15,23,42,0.16)]">
-                  <img src="/image/2.jpg" alt="interior" className="h-full w-full object-cover" />
-                </div>
-                <div className="absolute bottom-0 right-0 h-[280px] w-[72%] overflow-hidden rounded-[32px] border-[6px] border-white shadow-[0_24px_55px_rgba(15,23,42,0.18)]">
-                  <img src="/image/1.jpg" alt="building" className="h-full w-full object-cover" />
-                </div>
-                <div className="absolute right-10 top-0 rounded-2xl bg-[#e9c998] px-5 py-3 text-sm font-bold text-[#3b2a10] shadow-lg">
-                  الأفضل للمستأجرين
-                </div>
+              <div className="mx-auto max-w-[520px]">
+                <img src="/image/Group 21.png" alt="لماذا نحن" className="w-full object-contain" />
               </div>
             </div>
           </div>

@@ -3,7 +3,7 @@ const navigationItems = [
   { id: 'bookings', label: 'الحجوزات', href: '#bookings', page: 'bookings' },
   { id: 'car-rental', label: 'تأجير سيارات', href: '#car-rental', page: 'car-rental' },
   { id: 'about', label: 'من نحن', href: '#about', page: 'about' },
-  { id: 'contact', label: 'تواصل معنا', href: '#contact', page: 'home' },
+  { id: 'contact', label: 'تواصل معنا', href: '#contact-us', page: 'contact' },
 ];
 
 function Navbar({ currentPage = 'home' }) {
@@ -50,7 +50,7 @@ function Navbar({ currentPage = 'home' }) {
             href="#contact"
             className="rounded-md bg-[#155fcb] px-4 py-2 text-sm font-bold text-white transition hover:bg-[#114ea7]"
           >
-            انشر عقارك
+            تسجيل الدخول
           </a>
         </div>
       </div>

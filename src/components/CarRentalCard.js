@@ -98,7 +98,7 @@ function CarRentalCard({ car }) {
         </div>
 
         <a
-          href="#contact"
+          href={`#car/${car.id}`}
           className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-[10px] bg-[#0f4fa8] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#0c428e]"
         >
           <ArrowLeftIcon />
