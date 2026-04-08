@@ -9,6 +9,8 @@ import CarRentalDetails from './pages/CarRentalDetails';
 import TermsOfUse from './pages/TermsOfUse';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Faq from './pages/Faq';
+import ProfilePage from './pages/profile/ProfilePage';
+import { isAuthenticated } from './utils/auth';
 
 const getRoute = () => {
   if (typeof window === 'undefined') {
@@ -43,6 +45,10 @@ const getRoute = () => {
 
   if (hash === '#faq') {
     return { page: 'faq', propertyId: null };
+  }
+
+  if (hash === '#profile' || hash.startsWith('#profile/')) {
+    return { page: isAuthenticated() ? 'profile' : 'home', propertyId: null };
   }
 
   if (hash.startsWith('#car/')) {
@@ -104,6 +110,10 @@ function App() {
 
   if (route.page === 'faq') {
     return <Faq />;
+  }
+
+  if (route.page === 'profile') {
+    return <ProfilePage />;
   }
 
   return <Home />;

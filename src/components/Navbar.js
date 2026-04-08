@@ -2,6 +2,7 @@ import { useState } from 'react';
 import CreateAccount from './CreateAccount';
 import ForgotPassword from './ForgotPassword';
 import Login from './Login';
+import { clearStoredUser, getStoredUser } from '../utils/auth';
 
 const navigationItems = [
   { id: 'home', label: 'الرئيسية', href: '#home', page: 'home' },
@@ -13,9 +14,20 @@ const navigationItems = [
 
 function Navbar({ currentPage = 'home' }) {
   const [authView, setAuthView] = useState(null);
+  const user = getStoredUser();
 
   const handleCloseAuth = () => {
     setAuthView(null);
+  };
+
+  const handleLoginSuccess = () => {
+    window.location.hash = '#profile/bookings';
+  };
+
+  const handleLogout = () => {
+    clearStoredUser();
+    setAuthView(null);
+    window.location.hash = '#home';
   };
 
   return (
@@ -58,13 +70,33 @@ function Navbar({ currentPage = 'home' }) {
               })}
             </nav>
 
-            <button
-              type="button"
-              onClick={() => setAuthView('login')}
-              className="rounded-md bg-[#155fcb] px-4 py-2 text-sm font-bold text-white transition hover:bg-[#114ea7]"
-            >
-              تسجيل الدخول
-            </button>
+            <div className="flex items-center gap-3">
+              {user ? (
+                <>
+                  <a
+                    href="#profile/bookings"
+                    className="rounded-md border border-[#d9e4f6] px-4 py-2 text-sm font-bold text-[#155fcb] transition hover:bg-[#eff5ff]"
+                  >
+                    حسابي
+                  </a>
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="rounded-md bg-[#155fcb] px-4 py-2 text-sm font-bold text-white transition hover:bg-[#114ea7]"
+                  >
+                    تسجيل الخروج
+                  </button>
+                </>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setAuthView('login')}
+                  className="rounded-md bg-[#155fcb] px-4 py-2 text-sm font-bold text-white transition hover:bg-[#114ea7]"
+                >
+                  تسجيل الدخول
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </header>
@@ -74,6 +106,7 @@ function Navbar({ currentPage = 'home' }) {
         onClose={handleCloseAuth}
         onOpenCreateAccount={() => setAuthView('create-account')}
         onOpenForgotPassword={() => setAuthView('forgot-password')}
+        onLoginSuccess={handleLoginSuccess}
       />
 
       <CreateAccount

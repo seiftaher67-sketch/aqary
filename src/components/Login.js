@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import AuthLayout from './AuthLayout';
+import { DEFAULT_LOGIN_CREDENTIALS, storeUser } from '../utils/auth';
 
 function EnvelopeIcon({ className = 'h-6 w-6' }) {
   return (
@@ -22,17 +23,36 @@ function LockClosedIcon({ className = 'h-6 w-6' }) {
   );
 }
 
-function Login({ isOpen, onClose, onOpenCreateAccount, onOpenForgotPassword }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+function Login({ isOpen, onClose, onOpenCreateAccount, onOpenForgotPassword, onLoginSuccess }) {
+  const [email, setEmail] = useState(DEFAULT_LOGIN_CREDENTIALS.email);
+  const [password, setPassword] = useState(DEFAULT_LOGIN_CREDENTIALS.password);
   const [rememberMe, setRememberMe] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleLogin = () => {
+    const isValidEmail = email.trim().toLowerCase() === DEFAULT_LOGIN_CREDENTIALS.email;
+    const isValidPassword = password === DEFAULT_LOGIN_CREDENTIALS.password;
+
+    if (!isValidEmail || !isValidPassword) {
+      setErrorMessage('بيانات الدخول الافتراضية هي seif@gmail.com وكلمة المرور 123');
+      return;
+    }
+
+    storeUser();
+    setErrorMessage('');
+    onClose();
+
+    if (onLoginSuccess) {
+      onLoginSuccess();
+    }
+  };
 
   return (
     <AuthLayout isOpen={isOpen} onClose={onClose}>
       <div>
-        <h2 className="text-[38px] font-extrabold leading-[1.4] text-[#111827] sm:text-[44px]">مرحباً بعودتك!</h2>
+        <h2 className="text-[38px] font-extrabold leading-[1.4] text-[#111827] sm:text-[44px]">مرحبًا بعودتك!</h2>
         <p className="mt-7 text-[22px] leading-[1.9] text-[#8f8f94]">
-          سجل دخولك للوصول إلى حسابك واستمتع بتجربة الإيجار المميزة.
+          سجّل دخولك للوصول إلى حسابك والبدء في إدارة صفحات البروفايل والعقارات الخاصة بك.
         </p>
 
         <div className="mt-14">
@@ -42,7 +62,10 @@ function Login({ isOpen, onClose, onOpenCreateAccount, onOpenForgotPassword }) {
             <input
               type="email"
               value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              onChange={(event) => {
+                setEmail(event.target.value);
+                setErrorMessage('');
+              }}
               placeholder="أدخل بريدك الإلكتروني"
               className="h-full w-full border-0 bg-transparent text-right text-base text-[#1f2937] outline-none placeholder:text-[#a1a1aa]"
             />
@@ -56,12 +79,21 @@ function Login({ isOpen, onClose, onOpenCreateAccount, onOpenForgotPassword }) {
             <input
               type="password"
               value={password}
-              onChange={(event) => setPassword(event.target.value)}
+              onChange={(event) => {
+                setPassword(event.target.value);
+                setErrorMessage('');
+              }}
               placeholder="أدخل كلمة المرور الخاصة بك"
               className="h-full w-full border-0 bg-transparent text-right text-base text-[#1f2937] outline-none placeholder:text-[#a1a1aa]"
             />
           </div>
         </div>
+
+        <p className="mt-4 text-right text-sm font-semibold text-[#155fcb]">
+          بيانات الدخول الافتراضية: seif@gmail.com / 123
+        </p>
+
+        {errorMessage ? <p className="mt-2 text-right text-sm font-semibold text-[#d14343]">{errorMessage}</p> : null}
 
         <div className="mt-8 flex items-center justify-between gap-4">
           <label className="flex cursor-pointer items-center gap-3 text-[17px] text-[#111827]">
@@ -85,6 +117,7 @@ function Login({ isOpen, onClose, onOpenCreateAccount, onOpenForgotPassword }) {
 
         <button
           type="button"
+          onClick={handleLogin}
           className="mt-10 flex h-16 w-full items-center justify-center rounded-[18px] border-2 border-[#1560d4] text-[20px] font-extrabold text-[#1560d4] transition hover:bg-[#1560d4] hover:text-white"
         >
           تسجيل الدخول
