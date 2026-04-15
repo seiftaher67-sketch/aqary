@@ -76,7 +76,7 @@ function AboutUs() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white" dir="rtl">
+    <div className="min-h-screen bg-white">
       <Navbar currentPage="about" />
 
       <main id="about" className="overflow-hidden">

@@ -1,6 +1,9 @@
+import { useState } from 'react';
 import Footer from '../../components/Footer';
 import Navbar from '../../components/Navbar';
-import { clearStoredUser, getStoredUser } from '../../utils/auth';
+import { clearStoredUser, getStoredUser, storeUser } from '../../utils/auth';
+import ProfileEditModal from './ProfileEditModal';
+import { ReviewFormModal, ReviewThankYouModal } from './ReviewModal';
 import {
   bookingFilters,
   favoriteProperties,
@@ -18,6 +21,24 @@ function UserCircleIcon({ className = 'h-5 w-5' }) {
         d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
         clipRule="evenodd"
       />
+    </svg>
+  );
+}
+
+function PencilSquareIcon({ className = 'h-5 w-5' }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+      <path d="M16.862 3.487a2.25 2.25 0 1 1 3.182 3.182L9.91 16.803a4.5 4.5 0 0 1-1.897 1.13l-2.685.805a.75.75 0 0 1-.932-.932l.805-2.685a4.5 4.5 0 0 1 1.13-1.897L16.862 3.487Z" />
+      <path d="M18 14.25a.75.75 0 0 1 .75.75v3A2.25 2.25 0 0 1 16.5 20.25h-10.5A2.25 2.25 0 0 1 3.75 18V7.5A2.25 2.25 0 0 1 6 5.25h3a.75.75 0 0 1 0 1.5H6a.75.75 0 0 0-.75.75V18a.75.75 0 0 0 .75.75h10.5a.75.75 0 0 0 .75-.75v-3a.75.75 0 0 1 .75-.75Z" />
+    </svg>
+  );
+}
+
+function CameraIcon({ className = 'h-5 w-5' }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+      <path d="M9 4.5a1.5 1.5 0 0 0-1.248.668L6.951 6.375H5.25A2.25 2.25 0 0 0 3 8.625v8.25a2.25 2.25 0 0 0 2.25 2.25h13.5A2.25 2.25 0 0 0 21 16.875v-8.25a2.25 2.25 0 0 0-2.25-2.25h-1.701l-.8-1.207A1.5 1.5 0 0 0 15 4.5H9Z" />
+      <path d="M12 9a3.375 3.375 0 1 0 0 6.75A3.375 3.375 0 0 0 12 9Z" />
     </svg>
   );
 }
@@ -257,12 +278,12 @@ function getSectionFromHash() {
 
 function InfoField({ icon, label, value }) {
   return (
-    <div className="rounded-[22px] border border-[#dce7f7] bg-white p-4 shadow-[0_12px_28px_rgba(18,55,118,0.05)]">
-      <div className="mb-3 flex items-center justify-between text-[#155fcb]">
+    <div className="min-w-0 text-right">
+      <p className="mb-4 text-[18px] font-medium text-[#9c9c9c]">{label}</p>
+      <div className="flex items-center justify-end gap-3 text-[#155fcb]">
         {icon}
-        <span className="text-[13px] font-bold text-[#8ca0bf]">{label}</span>
+        <p className="truncate text-[18px] font-extrabold text-[#111827]">{value}</p>
       </div>
-      <p className="text-right text-[15px] font-extrabold text-[#223152]">{value}</p>
     </div>
   );
 }
@@ -274,8 +295,8 @@ function SidebarItem({ item, currentSection }) {
   return (
     <a
       href={`#profile/${item.id}`}
-      className={`flex items-center justify-between rounded-[16px] border px-4 py-3 text-right transition ${
-        isActive ? 'border-[#155fcb] bg-[#155fcb] text-white shadow-[0_12px_24px_rgba(21,95,203,0.22)]' : 'border-transparent bg-white text-[#3b4f73] hover:border-[#d7e4f8] hover:bg-[#f6f9ff]'
+      className={`flex items-center justify-between border-b border-[#edf2f9] px-5 py-6 text-right transition last:border-b-0 ${
+        isActive ? 'bg-[#f7fbff] text-[#155fcb]' : 'bg-white text-[#202938] hover:bg-[#f8fbff]'
       }`}
     >
       <Icon className="h-5 w-5" />
@@ -284,8 +305,9 @@ function SidebarItem({ item, currentSection }) {
   );
 }
 
-function BookingCard({ booking }) {
+function BookingCard({ booking, onOpenReview }) {
   const styles = statusStyles[booking.bookingStatus];
+  const canReview = styles.label === 'اترك تقييمًا';
 
   return (
     <article className="overflow-hidden rounded-[24px] border border-[#dfe8f5] bg-white shadow-[0_14px_30px_rgba(18,55,118,0.08)]">
@@ -334,10 +356,18 @@ function BookingCard({ booking }) {
         </div>
 
         <div className="flex items-end justify-between gap-3 border-t border-[#edf2f9] pt-4">
-          <button type="button" className={`rounded-[12px] px-4 py-3 text-sm font-bold transition ${styles.button}`}>
+          <button
+            type="button"
+            onClick={() => {
+              if (canReview && onOpenReview) {
+                onOpenReview(booking);
+              }
+            }}
+            className={`rounded-[12px] px-4 py-3 text-sm font-bold transition ${styles.button}`}
+          >
             {styles.label}
           </button>
-          <div className="text-left">
+          <div className="text-right">
             <p className="text-[12px] text-[#91a1bc]">الإجمالي</p>
             <p className="text-[24px] font-extrabold leading-none text-[#155fcb]">
               {booking.total}
@@ -384,7 +414,7 @@ function FavoriteCard({ item }) {
         <p className="mt-1 text-sm text-[#7f8ea8]">{item.location}</p>
 
         <div className="mt-4 flex items-end justify-between border-b border-[#edf2f9] pb-4">
-          <div className="text-left">
+          <div className="text-right">
             <p className="text-[11px] text-[#93a2ba]">{item.period}</p>
             <p className="text-[28px] font-extrabold leading-none text-[#155fcb]">
               {item.price}
@@ -570,12 +600,34 @@ function SectionHeader({ title, description }) {
 }
 
 function ProfilePage() {
-  const user = getStoredUser();
+  const [user, setUser] = useState(() => getStoredUser());
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedBookingForReview, setSelectedBookingForReview] = useState(null);
+  const [isReviewThankYouOpen, setIsReviewThankYouOpen] = useState(false);
   const currentSection = getSectionFromHash();
 
   if (!user) {
     return null;
   }
+
+  const handleSaveProfile = (updatedUser) => {
+    storeUser(updatedUser);
+    setUser(updatedUser);
+    setIsEditModalOpen(false);
+  };
+
+  const handleOpenReview = (booking) => {
+    setSelectedBookingForReview(booking);
+  };
+
+  const handleCloseReview = () => {
+    setSelectedBookingForReview(null);
+  };
+
+  const handleSubmitReview = () => {
+    setSelectedBookingForReview(null);
+    setIsReviewThankYouOpen(true);
+  };
 
   const renderContent = () => {
     if (currentSection === 'favorites') {
@@ -617,53 +669,62 @@ function ProfilePage() {
             </button>
           ))}
         </div>
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {profileBookings.map((booking) => <BookingCard key={booking.id} booking={booking} />)}
+        <div className="grid gap-5 md:grid-cols-2">
+          {profileBookings.map((booking) => <BookingCard key={booking.id} booking={booking} onOpenReview={handleOpenReview} />)}
         </div>
       </>
     );
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f8fd]" dir="rtl">
+    <div className="min-h-screen bg-[#f5f8fd]" >
       <Navbar currentPage="profile" />
-      <main className="pb-16 pt-8">
+      <main className="pb-16 pt-8" dir="ltr">
         <div className="mx-auto max-w-[1380px] px-5 lg:px-8">
-          <section className="mb-6 rounded-[28px] bg-white p-5 shadow-[0_16px_35px_rgba(18,55,118,0.08)]">
-            <div className="mb-5 flex flex-col gap-4 border-b border-[#edf2f9] pb-5 lg:flex-row lg:items-center lg:justify-between">
-              <button type="button" className="rounded-[12px] bg-[#155fcb] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#114ea7]">تعديل البيانات</button>
-              <div className="flex items-center justify-end gap-4">
-                <div className="text-right">
-                  <p className="text-sm font-semibold text-[#90a0bb]">{user.role}</p>
-                  <h1 className="mt-1 text-[28px] font-extrabold text-[#223152]">بيانات المستخدم</h1>
-                </div>
-                <div className="relative">
-                  <img src={user.avatar} alt={user.name} className="h-24 w-24 rounded-full border-4 border-[#dce7f7] object-cover" />
-                  <span className="absolute bottom-2 right-1 flex h-7 w-7 items-center justify-center rounded-full bg-[#155fcb] text-xs font-bold text-white">+</span>
-                </div>
+          <section className="mb-6 rounded-[30px] bg-white px-5 py-6 shadow-[0_14px_40px_rgba(18,55,118,0.06)] lg:px-7">
+            <div className="mb-10 flex flex-col-reverse gap-5 lg:flex-row lg:items-center lg:justify-between">
+              <button
+                type="button"
+                onClick={() => setIsEditModalOpen(true)}
+                className="flex h-[62px] items-center justify-center gap-3 self-start rounded-[12px] bg-[#155fcb] px-7 text-[16px] font-extrabold text-white transition hover:bg-[#114ea7]"
+              >
+                <PencilSquareIcon className="h-6 w-6" />
+                <span>تعديل الملف الشخصي</span>
+              </button>
+
+              <div className="flex items-center justify-end gap-3 text-right">
+                <UserCircleIcon className="h-8 w-8 text-[#155fcb]" />
+                <h1 className="text-[28px] font-extrabold text-[#111827] lg:text-[32px]">بيانات المستخدم</h1>
               </div>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-              <InfoField icon={<UserCircleIcon className="h-5 w-5" />} label="الاسم الكامل" value={user.name} />
-              <InfoField icon={<EnvelopeIcon className="h-5 w-5" />} label="البريد الإلكتروني" value={user.email} />
-              <InfoField icon={<PhoneIcon className="h-5 w-5" />} label="رقم الجوال" value={user.phone} />
-              <InfoField icon={<IdentificationIcon className="h-5 w-5" />} label="رقم الهوية" value={user.nationalId} />
-              <InfoField icon={<MapPinIcon className="h-5 w-5" />} label="المدينة" value={user.city} />
+            <div className="flex flex-col items-end gap-8 lg:flex-row-reverse lg:items-center lg:justify-end lg:gap-10">
+              <div className="flex flex-col items-end gap-6 lg:flex-row-reverse lg:items-center">
+                <div className="relative flex-shrink-0">
+                  <img src={user.avatar} alt={user.name} className="h-[170px] w-[170px] rounded-full border-[4px] border-[#1560d4] object-cover" />
+                  <span className="absolute bottom-2 right-2 flex h-11 w-11 items-center justify-center rounded-full border-[4px] border-white bg-[#155fcb] text-white">
+                    <CameraIcon className="h-5 w-5" />
+                  </span>
+                </div>
+
+                <div className="min-w-[220px]">
+                  <InfoField icon={<UserCircleIcon className="h-5 w-5" />} label="الاسم الكامل" value={user.name} />
+                </div>
+              </div>
+
+              <div className="grid w-full justify-items-end gap-x-10 gap-y-8 text-right sm:grid-cols-2 xl:grid-cols-3 lg:flex-1">
+                <InfoField icon={<EnvelopeIcon className="h-5 w-5" />} label="البريد الإلكتروني" value={user.email} />
+                <InfoField icon={<PhoneIcon className="h-5 w-5" />} label="رقم الجوال" value={user.phone} />
+                <InfoField icon={<IdentificationIcon className="h-5 w-5" />} label="رقم الهوية" value={user.nationalId} />
+              </div>
             </div>
           </section>
 
-          <div className="flex flex-col gap-6 lg:flex-row">
-            <section className="min-w-0 flex-1">{renderContent()}</section>
+          <div className="flex flex-col gap-6 lg:flex-row-reverse lg:items-start">
 
-            <aside className="w-full lg:w-[280px] lg:flex-shrink-0">
-              <div className="rounded-[24px] border border-[#dfe8f5] bg-white p-4 shadow-[0_14px_30px_rgba(18,55,118,0.06)]">
-                <div className="mb-4 flex items-center justify-between">
-                  <BuildingOffice2Icon className="h-5 w-5 text-[#155fcb]" />
-                  <h2 className="text-[18px] font-extrabold text-[#223152]">لوحة المستخدم</h2>
-                </div>
-
-                <div className="space-y-2">
+            <aside className="w-full lg:w-[300px] lg:flex-shrink-0">
+              <div className="overflow-hidden rounded-[28px] border border-[#155fcb] bg-white shadow-[0_14px_30px_rgba(18,55,118,0.06)]">
+                <div className="space-y-0 p-0">
                   {profileMenuItems.map((item) => <SidebarItem key={item.id} item={item} currentSection={currentSection} />)}
                 </div>
 
@@ -673,16 +734,34 @@ function ProfilePage() {
                     clearStoredUser();
                     window.location.hash = '#home';
                   }}
-                  className="mt-5 flex w-full items-center justify-between rounded-[16px] border border-[#d9e4f6] bg-[#f7faff] px-4 py-3 text-[#1f315f] transition hover:bg-[#eef4fb]"
+                  className="flex w-full items-center justify-between border-t border-[#edf2f9] px-5 py-6 text-[#1f315f] transition hover:bg-[#f8fbff]"
                 >
                   <ArrowLeftOnRectangleIcon className="h-5 w-5" />
                   <span className="text-[15px] font-bold">تسجيل الخروج</span>
                 </button>
               </div>
             </aside>
+
+            <section className="min-w-0 flex-1">{renderContent()}</section>
           </div>
         </div>
       </main>
+      <ProfileEditModal
+        isOpen={isEditModalOpen}
+        user={user}
+        onClose={() => setIsEditModalOpen(false)}
+        onSave={handleSaveProfile}
+      />
+      <ReviewFormModal
+        isOpen={Boolean(selectedBookingForReview)}
+        booking={selectedBookingForReview}
+        onClose={handleCloseReview}
+        onSubmit={handleSubmitReview}
+      />
+      <ReviewThankYouModal
+        isOpen={isReviewThankYouOpen}
+        onClose={() => setIsReviewThankYouOpen(false)}
+      />
       <Footer />
     </div>
   );

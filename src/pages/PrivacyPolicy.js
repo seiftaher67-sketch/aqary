@@ -75,7 +75,7 @@ const sections = [
 
 function PrivacyPolicy() {
   return (
-    <div className="min-h-screen bg-white text-right" dir="rtl">
+    <div className="min-h-screen bg-white text-right">
       <Navbar />
       <main className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[980px] text-right">

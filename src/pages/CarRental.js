@@ -56,7 +56,7 @@ function CarRental() {
   const marqueeLogos = Array.from({ length: 4 }).flatMap(() => brandLogos);
 
   return (
-    <div className="min-h-screen bg-white" dir="rtl">
+    <div className="min-h-screen bg-white">
       <Navbar currentPage="car-rental" />
       <main className="overflow-hidden">
         <section className="border-b border-[#edf2f8] bg-[linear-gradient(180deg,#ffffff_0%,#f8fbff_100%)] py-10 sm:py-14">

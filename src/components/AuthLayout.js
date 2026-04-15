@@ -69,7 +69,6 @@ function AuthLayout({ isOpen, onClose, children, formScrollable = false }) {
     >
       <div
         className="relative grid h-[720px] w-full max-w-[1150px] overflow-hidden rounded-[34px] bg-white shadow-[0_28px_80px_rgba(8,20,46,0.35)] lg:grid-cols-[1.08fr_0.92fr]"
-        dir="rtl"
         onClick={(event) => event.stopPropagation()}
       >
         <button

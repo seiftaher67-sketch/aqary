@@ -70,7 +70,7 @@ const contactDetails = [
 
 function ContactUs() {
   return (
-    <div className="min-h-screen bg-white" dir="rtl">
+    <div className="min-h-screen bg-white">
       <Navbar currentPage="contact" />
 
       <main id="contact-us" className="overflow-hidden bg-white">

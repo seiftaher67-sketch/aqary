@@ -151,7 +151,7 @@ function CarRentalDetails({ carId }) {
   const galleryBottom = car.gallery.slice(2, 6);
 
   return (
-    <div className="min-h-screen bg-[#f7f9fc]" dir="rtl">
+    <div className="min-h-screen bg-[#f7f9fc]">
       <Navbar currentPage="car-rental" />
       <main className="pb-14 pt-7">
         <div className="mx-auto max-w-[1180px] px-4 sm:px-6 lg:px-8">

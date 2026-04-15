@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Home from './pages/Home';
 import Bookings from './pages/Bookings';
 import PropertyDetails from './pages/PropertyDetails';
+import PaymentPage from './pages/PaymentPage';
 import CarRental from './pages/CarRental';
 import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
@@ -61,6 +62,11 @@ const getRoute = () => {
     return { page: 'property', propertyId };
   }
 
+  if (hash.startsWith('#payment/')) {
+    const propertyId = hash.replace('#payment/', '');
+    return { page: 'payment', propertyId };
+  }
+
   return { page: 'home', propertyId: null };
 };
 
@@ -82,6 +88,10 @@ function App() {
 
   if (route.page === 'property') {
     return <PropertyDetails propertyId={route.propertyId} />;
+  }
+
+  if (route.page === 'payment') {
+    return <PaymentPage propertyId={route.propertyId} />;
   }
 
   if (route.page === 'car-rental') {

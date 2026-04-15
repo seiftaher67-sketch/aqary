@@ -56,7 +56,7 @@ function Faq() {
   const [openId, setOpenId] = useState(1);
 
   return (
-    <div className="min-h-screen bg-[#f7f9fc]" dir="rtl">
+    <div className="min-h-screen bg-[#f7f9fc]">
       <Navbar />
       <main className="px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[980px]">

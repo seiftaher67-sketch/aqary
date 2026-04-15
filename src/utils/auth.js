@@ -12,7 +12,7 @@ export const DEFAULT_PROFILE_USER = {
   nationalId: '1076543210',
   city: 'دبي',
   role: 'مستخدم موثق',
-  avatar: '/image/27.jpg',
+  avatar: '/image/32.jpg',
 };
 
 export function getStoredUser() {
@@ -27,7 +27,16 @@ export function getStoredUser() {
   }
 
   try {
-    return JSON.parse(rawValue);
+    const parsedUser = JSON.parse(rawValue);
+
+    if (parsedUser?.avatar === '/image/27.jpg' || !parsedUser?.avatar) {
+      return {
+        ...parsedUser,
+        avatar: DEFAULT_PROFILE_USER.avatar,
+      };
+    }
+
+    return parsedUser;
   } catch (error) {
     window.localStorage.removeItem(AUTH_STORAGE_KEY);
     return null;

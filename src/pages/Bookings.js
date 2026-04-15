@@ -163,7 +163,7 @@ function NumberChip({ label, active = false }) {
 
 function Bookings() {
   return (
-    <div className="min-h-screen bg-[#f6f8fc]" dir="rtl">
+    <div className="min-h-screen bg-[#f6f8fc]">
       <Navbar currentPage="bookings" />
       <main className="pb-14 pt-8">
         <div className="mx-auto max-w-[1380px] px-5 lg:px-8">

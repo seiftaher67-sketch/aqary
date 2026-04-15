@@ -21,7 +21,7 @@ function SectionHeading({ title, subtitle }) {
 
 function Home() {
   return (
-    <div id="home" className="min-h-screen bg-white" dir="rtl">
+    <div id="home" className="min-h-screen bg-white">
       <Navbar currentPage="home" />
       <main className="overflow-hidden">
         <Hero />

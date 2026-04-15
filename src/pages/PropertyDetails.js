@@ -29,9 +29,12 @@ function PropertyDetails({ propertyId }) {
   const mainImage = property.gallery[0];
   const sideImages = property.gallery.slice(1, 3);
   const bottomImages = property.gallery.slice(3, 7);
+  const handleConfirmBooking = () => {
+    window.location.hash = `#payment/${property.id}`;
+  };
 
   return (
-    <div className="min-h-screen bg-[#f6f8fc]" dir="rtl">
+    <div className="min-h-screen bg-[#f6f8fc]">
       <Navbar currentPage="bookings" />
       <main className="pb-14 pt-7">
         <div className="mx-auto max-w-[1380px] px-5 lg:px-8">
@@ -180,6 +183,7 @@ function PropertyDetails({ propertyId }) {
 
                   <button
                     type="button"
+                    onClick={handleConfirmBooking}
                     className="flex h-11 w-full items-center justify-center rounded-[10px] bg-[#155fcb] text-sm font-bold text-white"
                   >
                     تأكيد الحجز

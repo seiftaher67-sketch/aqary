@@ -2,7 +2,7 @@ import { useState } from 'react';
 import CreateAccount from './CreateAccount';
 import ForgotPassword from './ForgotPassword';
 import Login from './Login';
-import { clearStoredUser, getStoredUser } from '../utils/auth';
+import { getStoredUser } from '../utils/auth';
 
 const navigationItems = [
   { id: 'home', label: 'الرئيسية', href: '#home', page: 'home' },
@@ -22,12 +22,6 @@ function Navbar({ currentPage = 'home' }) {
 
   const handleLoginSuccess = () => {
     window.location.hash = '#profile/bookings';
-  };
-
-  const handleLogout = () => {
-    clearStoredUser();
-    setAuthView(null);
-    window.location.hash = '#home';
   };
 
   return (
@@ -72,21 +66,17 @@ function Navbar({ currentPage = 'home' }) {
 
             <div className="flex items-center gap-3">
               {user ? (
-                <>
-                  <a
-                    href="#profile/bookings"
-                    className="rounded-md border border-[#d9e4f6] px-4 py-2 text-sm font-bold text-[#155fcb] transition hover:bg-[#eff5ff]"
-                  >
-                    حسابي
-                  </a>
-                  <button
-                    type="button"
-                    onClick={handleLogout}
-                    className="rounded-md bg-[#155fcb] px-4 py-2 text-sm font-bold text-white transition hover:bg-[#114ea7]"
-                  >
-                    تسجيل الخروج
-                  </button>
-                </>
+                <a
+                  href="#profile/bookings"
+                  className="transition hover:opacity-85"
+                  aria-label="الانتقال إلى الملف الشخصي"
+                >
+                  <img
+                    src={user.avatar}
+                    alt={user.name}
+                    className="h-11 w-11 rounded-full border-2 border-[#dce7f7] object-cover"
+                  />
+                </a>
               ) : (
                 <button
                   type="button"
