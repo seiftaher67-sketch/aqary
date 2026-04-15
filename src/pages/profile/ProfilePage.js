@@ -185,18 +185,6 @@ function ChevronLeftIcon({ className = 'h-5 w-5' }) {
   );
 }
 
-function BuildingOffice2Icon({ className = 'h-5 w-5' }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
-      <path
-        fillRule="evenodd"
-        d="M3.75 2.25A2.25 2.25 0 0 0 1.5 4.5v15A2.25 2.25 0 0 0 3.75 21.75H9V16.5a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 .75.75v5.25h5.25a2.25 2.25 0 0 0 2.25-2.25V8.56a2.25 2.25 0 0 0-.659-1.591l-4.81-4.81A2.25 2.25 0 0 0 15.44 1.5H3.75Zm3.75 4.5a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75Zm0 3.75a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75Zm0 3.75a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75Zm6-7.5a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75Zm0 3.75a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75Zm0 3.75a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75Z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-}
-
 function HeartIcon({ className = 'h-5 w-5' }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
