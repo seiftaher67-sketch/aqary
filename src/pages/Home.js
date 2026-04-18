@@ -27,12 +27,12 @@ function Home() {
         <Hero />
 
         <section id="latest-rentals" className="bg-white py-14 sm:py-16">
-          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8">
             <SectionHeading
               title="أحدث الإيجارات المعروضة"
               subtitle="تصفح أحدث الوحدات المضافة بتفاصيل واضحة وأسعار استرشادية"
             />
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {latestRentals.map((rental) => (
                 <CarCard key={rental.id} car={rental} />
               ))}
@@ -63,12 +63,12 @@ function Home() {
         </section>
 
         <section id="best-selling" className="bg-white py-14 sm:py-16">
-          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8">
             <SectionHeading
               title="تصفح الإيجارات الأكثر مبيعًا في مدينة نصر"
               subtitle="مجموعة مختارة من أكثر الوحدات طلبًا في المناطق الحيوية"
             />
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {bestSellingRentals.map((rental) => (
                 <CarCard key={rental.id} car={rental} />
               ))}
