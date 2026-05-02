@@ -263,6 +263,8 @@ function BookingMetaItem({ label, value }) {
   );
 }
 
+// Kept as a reference for the older compact booking layout.
+// eslint-disable-next-line no-unused-vars
 function BookingCarCard({ car }) {
   return (
     <article className="overflow-hidden rounded-[18px] border border-[#dfe8f5] bg-white shadow-[0_12px_30px_rgba(18,55,118,0.08)]">
@@ -328,7 +330,7 @@ function BookingCarCard({ car }) {
 
 function CarCard({ car, variant = 'default' }) {
   if (variant === 'booking') {
-    return <BookingCarCard car={car} />;
+    return <HomeCarCard car={car} />;
   }
 
   return <HomeCarCard car={car} />;
